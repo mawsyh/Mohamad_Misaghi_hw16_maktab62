@@ -4,7 +4,7 @@ let router = express.Router();
 module.exports =  function ({ connection }) {
     router.get("/showAll", async function (req, res) {
         try{
-            const [row, schema] = await connection.query("SELECT * FROM project")
+            const [row, schema] = await connection.query("SELECT * FROM customer")
             console.table(row)
             res.send(row)
         } catch(err){
@@ -14,7 +14,7 @@ module.exports =  function ({ connection }) {
     });
     router.post("/search", async function (req, res) {
         try{
-            const [row, schema] = await connection.query(`SELECT * FROM project WHERE ${req.body.key} = ${req.body.value}`)
+            const [row, schema] = await connection.query(`SELECT * FROM customer WHERE ${req.body.key} = ${req.body.value}`)
             console.table(row)
             res.send(row)
         } catch(err){
@@ -24,7 +24,7 @@ module.exports =  function ({ connection }) {
     });
     router.post("/delete", async function (req, res) {
         try{
-            const deletingData = await connection.query(`DELETE FROM project WHERE ${req.body.key} = ${req.body.value}`)
+            const deletingData = await connection.query(`DELETE FROM customer WHERE ${req.body.key} = ${req.body.value}`)
             console.table(deletingData[0])
             res.send(deletingData[0])
         } catch(err){
@@ -34,8 +34,8 @@ module.exports =  function ({ connection }) {
     });
     router.post("/update", async function (req, res) {
         try{
-            const updatingResult = await connection.query(`UPDATE project SET title = ?, description = ? WHERE id = ?`,
-                [req.body.title, req.body.description, req.body.id])
+            const updatingResult = await connection.query(`UPDATE customer SET type = ?, name = ?, income = ?, createdAt = ?, phoneNumber = ? WHERE id = ?`,
+                [req.body.type, req.body.name, req.body.income, req.body.createdAt, req.body.phoneNumber, req.body.id])
             console.table(updatingResult[0])
             res.send(updatingResult[0])
         } catch(err){
@@ -45,8 +45,8 @@ module.exports =  function ({ connection }) {
     });
     router.post("/create", async function (req, res) {
         try{
-            const creatingResult = await connection.query(`INSERT INTO project (id, title, description) VALUES (?, ?, ?)`,
-                [req.body.id, req.body.title, req.body.description])
+            const creatingResult = await connection.query(`INSERT INTO customer (id, type, name, income, createdAt, phoneNumber) VALUES (?, ?, ?, ?, ?, ?)`,
+                [req.body.id, req.body.type, req.body.name, req.body.income, req.body.createdAt, req.body.phoneNumber])
             console.table(creatingResult[0])
             res.send(creatingResult[0])
         } catch(err){

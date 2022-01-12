@@ -1,14 +1,13 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 
-async function makeConnection({ host, user, database, password }) {
+async function makeConnection({host, user, database, password}) {
   try {
-    const connection = mysql.createConnection({
+    const connection = await mysql.createConnection({
       host,
       user,
       database,
       password,
     });
-
     return connection;
   } catch (error) {
     console.log(error);
